@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lihi website ❤️</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#ffb3c6;
+    color:#2b0a1a;
+    text-align:center;
+}
+
+/* LOGIN */
+
+#login{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+}
+
+/* קונטיינר לקוביות הקוד */
+.code-container {
+    display: flex;
+    gap: 10px;
+    direction: ltr; 
+    margin-bottom: 10px;
+}
+
+/* עיצוב הקוביות עצמן */
+.code-input {
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #b83b65;
+    border-radius: 10px;
+    background: white;
+    color: #2b0a1a;
+    outline: none;
+    transition: 0.2s;
+}
+
+.code-input:focus {
+    box-shadow: 0 0 8px rgba(184, 59, 101, 0.5);
+    border-color: #b83b65;
+}
+
+button{
+    background:#d9d0d0;
+    border:3px solid #a89e9e;
+
+    border-top-color:#f8f3f3;
+    border-left-color:#f8f3f3;
+
+    border-bottom-color:#7d7474;
+    border-right-color:#7d7474;
+
+    color:#b83b65;
+
+    font-family:monospace;
+    font-weight:bold;
+    font-size:20px;
+
+    padding:8px 22px;
+
+    cursor:pointer;
+
+    box-shadow:
+        inset 2px 2px 0 #ffffff,
+        inset -2px -2px 0 #8a8080;
+
+    transition:.1s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+button:active{
+    border-top-color:#7d7474;
+    border-left-color:#7d7474;
+    border-bottom-color:#f8f3f3;
+    border-right-color:#f8f3f3;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* MAIN */
+
+.box{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+    padding:20px;
+    max-width: 750px; /* רוחב מדויק כדי להחזיק 3 כרטיסיות בשורה */
+    margin: 0 auto;
+    direction: rtl; /* מסדר את הכרטיסיות מימין לשמאל */
+}
+
+.letter{
+    background:rgba(255,255,255,0.4);
+    padding:15px;
+    border-radius:12px;
+
+    width:220px;
+    height:120px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+    font-weight: bold;
+    font-size: 18px;
+
+    cursor:pointer;
+    transition:.3s;
+    box-sizing: border-box;
+}
+
+.letter:hover{
+    transform:scale(1.07);
+    background:rgba(255,255,255,0.7);
+}
+
+/* POPUP */
+
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index: 1000;
+}
+
+.popup-content{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    width:450px;
+    min-height:300px;
+    max-width:95%;
+    position:relative;
+    overflow-y:auto;
+    padding-bottom:80px;
+}
+
+#text {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-box{
+    position:relative;
+    width:100%;
+    height:340px;
+    overflow:hidden;
+}
+
+/* קונטיינר מסודר וממורכז לכפתורים בהתחלה */
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 25px;
+}
+
+.love-letter{
+    text-align:right;
+    width: 100%;
+    line-height:1.8;
+}
+
+/* קופונים - כרטיסי גירוד מציאותיים */
+.coupons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.coupon-card {
+    position: relative;
+    width: 180px;
+    height: 120px;
+    background: #fff0f3;
+    border: 2px dashed #ff4d6d;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #c9184a;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.scratch-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23ff4d6d"/></svg>'), auto;
+    touch-action: none;
+}
+
+.coupon-footer-text {
+    margin-top: 25px;
+    color: #ff4d6d;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* עיצוב המבוך - הפתעה חמישית - רשת 15X15 מותאמת */
+.maze-grid {
+    display: grid;
+    grid-template-columns: repeat(15, 23px);
+    grid-template-rows: repeat(15, 23px);
+    gap: 1px;
+    background: #2b0a1a;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 15px auto;
+}
+
+.maze-cell {
+    width: 23px;
+    height: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    background: #fff0f3;
+}
+
+.maze-wall {
+    background: #b83b65 !important;
+}
+
+/* סידור מקלדת חצים דיגיטלית כמו במציאות */
+.maze-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 15px;
+}
+
+.maze-btn-row {
+    display: flex;
+    gap: 6px;
+}
+
+.maze-ctrl-btn {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* כפתור ריק שומר על המבנה של המקלדת */
+.maze-empty-space {
+    width: 45px;
+    height: 45px;
+}
+
+/* עיצוב הפתעה שישית - צייר לי אהבה */
+.paint-canvas {
+    background: #ffffff;
+    border: 3px dashed #b83b65;
+    border-radius: 15px;
+    cursor: crosshair;
+    touch-action: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.paint-tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.color-picker {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #2b0a1a;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+/* FLOWER */
+
+@keyframes grow{
+    from{
+        transform:scale(0);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.flower{
+    animation:grow 1.2s ease forwards;
+}
+
+/* עיצוב כפתורי ההתחמקות עם מעבר חלק */
+#yesBtn, #noBtn {
+    transition: left 0.2s ease-out, top 0.2s ease-out;
+}
+
+.close-btn{
+    display:block;
+    margin:20px auto 0 auto;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="login">
+    <h2>באבי אני יודע שהמרחק קשה רצח אז הכנתי לך משהו שאת יכולה להיכנס אליו כל פעם שאת מתגעגעת ❤️</h2>
+    <h3>אבל רק אם תדעי את הסיסמה</h3>
+    
+    <div class="code-container">
+        <input type="password" maxlength="1" class="code-input" oninput="moveNext(this, 1)" onkeydown="moveBack(event, 1)">
+        <input type="password" maxlength="1" class="code-input" oninput="moveNext(this, 2)" onkeydown="moveBack(event, 2)">
+        <input type="password" maxlength="1" class="code-input" oninput="moveNext(this, 3)" onkeydown="moveBack(event, 3)">
+        <input type="password" maxlength="1" class="code-input" oninput="moveNext(this, 4)" onkeydown="moveBack(event, 4)">
+        <input type="password" maxlength="1" class="code-input" oninput="moveNext(this, 5)" onkeydown="moveBack(event, 5)">
+        <input type="password" maxlength="1" class="code-input" oninput="moveNext(this, 6)" onkeydown="moveBack(event, 6)">
+    </div>
+
+    <button onclick="check()">פתחי</button>
+</div>
+
+<div id="main" class="hidden">
+
+    <h2>קופסת המכתבים שלך 💌</h2>
+
+    <div class="box">
+
+        <div class="letter"
+        onclick="openLetter(`
+            <p style='margin-top:0;'>לא לכעוס עלי אני אוהב אותךךך ❤️</p>
+            <video width='220' controls autoplay muted style='border-radius: 8px;'>
+                <source src='lihi1.mp4' type='video/mp4'>
+            </video>
+        `)">
+            הפתעה ראשונה
+        </div>
+
+        <div class="letter"
+        onclick="openLetter(`
+            <h3>זה בשבילך ❤️</h3>
+            <img src='flower.jpg' class='flower' width='180'>
+        `)">
+            הפתעה שניה
+        </div>
+
+        <div class="letter" onclick="loveQuestion(1)">
+            הפתעה שלישית
+        </div>
+
+        <div class="letter" onclick="scratchCoupons()">
+            הפתעה רביעית
+        </div>
+
+        <div class="letter" onclick="startMazeGame()">
+            הפתעה חמישית
+        </div>
+
+        <div class="letter" onclick="initPaintSurprise()">
+            הפתעה שישית
+        </div>
+
+        <div class="letter" onclick="openLoveLetterDirect()">
+            הפתעה שביעית
+        </div>
+
+    </div>
+
+</div>
+
+<div id="popup" class="popup hidden">
+    <div id="popupContent" class="popup-content">
+
+        <div id="text"></div>
+
+        <button class="close-btn" onclick="closeLetter()">
+            סגור
+        </button>
+
+    </div>
+</div>
+
+<script>
+
+function moveNext(current, index) {
+    if (current.value.length === 1 && index < 6) {
+        document.querySelectorAll('.code-input')[index].focus();
+    }
+}
+
+function moveBack(event, index) {
+    if (event.key === "Backspace" && event.target.value.length === 0 && index > 1) {
+        document.querySelectorAll('.code-input')[index - 2].focus();
+    }
+}
+
+function check(){
+    const inputs = document.querySelectorAll('.code-input');
+    let password = "";
+    inputs.forEach(input => password += input.value);
+
+    if(password === "250326"){
+        document.getElementById("login").style.display="none";
+        document.getElementById("main").classList.remove("hidden");
+    }
+    else {
+        alert("הסיסמה שגויה באבי תנסי שוב ❤️");
+        inputs.forEach(input => input.value = "");
+        inputs[0].focus();
+    }
+}
+
+function openLetter(content){
+    const popupContent = document.querySelector(".popup-content");
+    popupContent.style.width = "450px";
+    popupContent.style.minHeight = "300px";
+    popupContent.style.height = "auto";
+
+    document.getElementById("text").innerHTML = content;
+    document.getElementById("popup").classList.remove("hidden");
+}
+
+function closeLetter(){
+    document.getElementById("popup").classList.add("hidden");
+    window.removeEventListener('keydown', handleMazeKeydown);
+}
+
+// לוגיקת משחק השאלות המתוחכם (שלב 1 ושלב 2)
+function loveQuestion(stage){
+    if (stage === 1) {
+        // שלב ראשון: ה-YES בורח, אין ברירה אלא ללחוץ NO
+        openLetter(`
+            <div class="question-box" id="qBox">
+                <h1>❤️ שאלה חשובה ❤️</h1>
+                <h2>האם את אוהבת אותי?</h2>
+                <div class="buttons-container">
+                    <button id="yesBtn" onmouseenter="teleportBtn('yesBtn')">YES</button>
+                    <button id="noBtn" onclick="loveQuestion(2)">NO</button>
+                </div>
+            </div>
+        `);
+    } else if (stage === 2) {
+        // שלב שני: לחיצה על NO מציגה את התמונה המקומית sadcat.jpg, עכשיו ה-NO בורח ורק YES לחיץ
+        document.getElementById("text").innerHTML = `
+            <div class="question-box" id="qBox">
+                <h2 style="color: #b83b65; margin-bottom: 5px;">יש לך הזדמנות אחרונה! 🥺</h2>
+                <img src="sadcat.jpg" alt="Sad Cat" style="max-height:140px; border-radius:10px; margin-bottom: 10px;">
+                <div class="buttons-container">
+                    <button id="yesBtn" onclick="showFinalWin()">YES</button>
+                    <button id="noBtn" onmouseenter="teleportBtn('noBtn')">NO</button>
+                </div>
+            </div>
+        `;
+    }
+
+    const popupContent = document.querySelector(".popup-content");
+    popupContent.style.width = "700px";
+    popupContent.style.height = "520px";
+}
+
+// פונקציית ההתחמקות הגנרית לכפתורים
+function teleportBtn(btnId){
+    const btn = document.getElementById(btnId);
+    const container = document.getElementById("qBox");
+
+    if(!btn || !container) return;
+
+    const maxX = container.clientWidth - btn.offsetWidth;
+    const maxY = container.clientHeight - btn.offsetHeight;
+
+    if (btn.style.position !== "absolute") {
+        btn.style.position = "absolute";
+    }
+
+    let randomX, randomY;
+    
+    do {
+        randomX = Math.random() * maxX;
+        randomY = Math.random() * maxY;
+    } while (
+        Math.abs(randomX - parseFloat(btn.style.left || 0)) < 120 && 
+        Math.abs(randomY - parseFloat(btn.style.top || 0)) < 120
+    );
+
+    btn.style.left = randomX + "px";
+    btn.style.top = randomY + "px";
+}
+
+// שלב סופי: לחיצה על YES מנצחת
+function showFinalWin(){
+    document.getElementById("text").innerHTML=`
+        <div style="text-align:center; padding: 10px;">
+            <h2 style="color: #b83b65; font-size: 26px; margin-bottom: 15px;">ישששש ידעתי שאת אוהבת אותי ❤️</h2>
+            <img src="cat.gif" alt="Cat GIF" style="max-width:100%; max-height:280px; border-radius:12px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+        </div>
+    `;
+}
+
+function openLoveLetterDirect() {
+    openLetter(`
+        <div class="love-letter">
+            <h2 style="text-align:center;">❤️ באבי ❤️</h2>
+            <p>את הבנאדם הכי חופר, ומטומטם שאני מכיר, ומשום מה זה הדבר הכי טוב שקרה לי.</p>
+            <p>אני אוהב אותך גם כשאת שולחת לי 40 הודעות קוליות של דקה וחצי שאת מתלוננת על הלקוחות . אני אוהב אותך כשאת עצבנית על העולם ואז איכשהו מאשימה אותי בזה, ואני אוהב אותך אפילו שאת אומרת לי שאת לא רעבה ואז שניה אחרי זה אני מוצא את עצמי באמצע הארוחה קם להוציא לך אוכל.</p>
+            <p>בקיצור באבי אני מאוהב בך הכי בעולם אני יעשה הכל בשבילך ❤️</p>
+        </div>
+    `);
+    const popupContent = document.querySelector(".popup-content");
+    popupContent.style.width = "550px";
+    popupContent.style.height = "auto";
+}
+
+/* הפתעה רביעית - פונקציית כרטיסי גירוד אמיתיים */
+function scratchCoupons() {
+    openLetter(`
+        <h2>קופוני הפינוק שלך 🎟️</h2>
+        <p>תשתמשי באצבע או בעכבר כדי לגרד את הכרטיסים!</p>
+        
+        <div class="coupons-container">
+            <div class="coupon-card">
+                ג'אנק פוד מפנק על חשבוני בערב קשה 🍔
+                <canvas class="scratch-canvas"></canvas>
+            </div>
+            <div class="coupon-card">
+                שיחת וידאו לילית של שעות בלי תלונות 📞
+                <canvas class="scratch-canvas"></canvas>
+            </div>
+            <div class="coupon-card">
+                עיסוי של שעה כשאנחנו נפגשים 💆‍♀️
+                <canvas class="scratch-canvas"></canvas>
+            </div>
+        </div>
+
+        <div class="coupon-footer-text">
+            ⚠️ ישנו שימוש 1 בלבד לכל קופון - תבחרי בחוכמה! ⚠️
+        </div>
+    `);
+
+    const popupContent = document.querySelector(".popup-content");
+    popupContent.style.width = "650px";
+    popupContent.style.height = "auto";
+
+    setTimeout(initScratchCards, 50);
+}
+
+function initScratchCards() {
+    const canvases = document.querySelectorAll('.scratch-canvas');
+    canvases.forEach(canvas => {
+        const ctx = canvas.getContext('2d');
+        const parent = canvas.parentElement;
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+        ctx.fillStyle = '#d6ccd1';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#b83b65';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('❤️ תגרדי אותי ❤️', canvas.width / 2, canvas.height / 2);
+        
+        let isDrawing = false;
+        function scratch(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        canvas.addEventListener('mousemove', scratch);
+        window.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('touchstart', () => isDrawing = true);
+        canvas.addEventListener('touchmove', scratch);
+        window.addEventListener('touchend', () => isDrawing = false);
+    });
+}
+
+/* הפתעה חמישית - מבוך 15x15 מורכב, פתוח באמצע ופתיר ב-100%! */
+const mazeMap = [
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+    [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+    [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+    [0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0] 
+];
+
+let playerPos = { x: 0, y: 0 }; 
+const targetPos = { x: 14, y: 14 }; 
+
+function startMazeGame() {
+    playerPos = { x: 0, y: 0 }; 
+
+    openLetter(`
+        <h2 style="margin-bottom: 5px;">תחלצי אותי מהמפלצת! 👾</h2>
+        <p style="margin: 0 0 10px 0; font-size: 13px;">תנווטו בעזרת החצים במקלדת או הכפתורים במסך (זה מסובך רצח!)</p>
+        
+        <div class="maze-grid" id="mazeGrid"></div>
+
+        <div class="maze-controls">
+            <div class="maze-btn-row">
+                <div class="maze-empty-space"></div>
+                <button class="maze-ctrl-btn" onclick="movePlayer(0, -1)">▲</button>
+                <div class="maze-empty-space"></div>
+            </div>
+            <div class="maze-btn-row">
+                <button class="maze-ctrl-btn" onclick="movePlayer(-1, 0)">◀</button>
+                <button class="maze-ctrl-btn" onclick="movePlayer(0, 1)">▼</button>
+                <button class="maze-ctrl-btn" onclick="movePlayer(1, 0)">▶</button>
+            </div>
+        </div>
+    `);
+
+    const popupContent = document.querySelector(".popup-content");
+    popupContent.style.width = "430px";
+    popupContent.style.height = "auto";
+
+    renderMaze();
+    window.addEventListener('keydown', handleMazeKeydown);
+}
+
+function renderMaze() {
+    const grid = document.getElementById("mazeGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    for (let y = 0; y < 15; y++) {
+        for (let x = 0; x < 15; x++) {
+            const cell = document.createElement("div");
+            cell.classList.add("maze-cell");
+
+            if (mazeMap[y][x] === 1) {
+                cell.classList.add("maze-wall");
+            } else if (x === playerPos.x && y === playerPos.y) {
+                cell.innerHTML = "👧"; 
+            } else if (x === targetPos.x && y === targetPos.y) {
+                cell.innerHTML = "👾👦"; 
+            }
+
+            grid.appendChild(cell);
+        }
+    }
+}
+
+function handleMazeKeydown(e) {
+    if (e.key === "ArrowUp") { movePlayer(0, -1); e.preventDefault(); }
+    if (e.key === "ArrowDown") { movePlayer(0, 1); e.preventDefault(); }
+    if (e.key === "ArrowLeft") { movePlayer(-1, 0); e.preventDefault(); }
+    if (e.key === "ArrowRight") { movePlayer(1, 0); e.preventDefault(); }
+}
+
+function movePlayer(dx, dy) {
+    const newX = playerPos.x + dx;
+    const newY = playerPos.y + dy;
+
+    if (newX >= 0 && newX < 15 && newY >= 0 && newY < 15) {
+        if (mazeMap[newY][newX] !== 1) {
+            playerPos.x = newX;
+            playerPos.y = newY;
+            renderMaze();
+            checkMazeWin();
+        }
+    }
+}
+
+function checkMazeWin() {
+    if (playerPos.x === targetPos.x && playerPos.y === targetPos.y) {
+        window.removeEventListener('keydown', handleMazeKeydown);
+        
+        document.getElementById("text").innerHTML = `
+            <div style="padding: 20px;">
+                <h1 style="font-size: 50px; margin: 0;">🎉🏆🎉</h1>
+                <h2 style="color: #b83b65; margin-top: 15px;">הצלת אותי באבי!! 🥰</h2>
+                <p style="font-size: 18px; font-weight: bold;">המפלצת הובסה והגעת אלי סוף סוף! אוהב אותךךך ❤️❤️❤️</p>
+                <img src="punch.jpeg" width="250" style="border-radius: 10px; margin-top: 10px;">
+            </div>
+        `;
+    }
+}
+
+/* הפתעה שישית - צייר לי אהבה קנבס דיגיטלי */
+function initPaintSurprise() {
+    openLetter(`
+        <h2>ציירי מה שבאלך 🎨❤️</h2>
+        <p style="margin: 0 0 15px 0;">תציירי לי משהו מתוק, תשמרי ותשלחי לי בוואטסאפ!</p>
+        
+        <canvas id="paintCanvas" class="paint-canvas" width="360" height="300"></canvas>
+        
+        <div class="paint-tools">
+            <input type="color" id="colorPicker" class="color-picker" value="#ff4d6d">
+            <button onclick="clearCanvas()">נקה הכל ✨</button>
+            <button onclick="downloadCanvas()">שמרי ציור 💾</button>
+        </div>
+    `);
+
+    const popupContent = document.querySelector(".popup-content");
+    popupContent.style.width = "430px";
+    popupContent.style.height = "auto";
+
+    setTimeout(setupPaintCanvas, 50);
+}
+
+let isPainting = false;
+let paintCtx;
+let canvasElem;
+
+function setupPaintCanvas() {
+    canvasElem = document.getElementById('paintCanvas');
+    if (!canvasElem) return;
+    paintCtx = canvasElem.getContext('2d');
+    
+    paintCtx.fillStyle = "#ffffff";
+    paintCtx.fillRect(0, 0, canvasElem.width, canvasElem.height);
+
+    paintCtx.lineWidth = 4;
+    paintCtx.lineCap = 'round';
+    paintCtx.lineJoin = 'round';
+
+    const colorPicker = document.getElementById('colorPicker');
+
+    function getPos(e) {
+        const rect = canvasElem.getBoundingClientRect();
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+        };
+    }
+
+    function startDraw(e) {
+        isPainting = true;
+        paintCtx.strokeStyle = colorPicker.value;
+        const pos = getPos(e);
+        paintCtx.beginPath();
+        paintCtx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(e) {
+        if (!isPainting) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        paintCtx.lineTo(pos.x, pos.y);
+        paintCtx.stroke();
+    }
+
+    function stopDraw() {
+        isPainting = false;
+    }
+
+    canvasElem.addEventListener('mousedown', startDraw);
+    canvasElem.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDraw);
+
+    canvasElem.addEventListener('touchstart', startDraw);
+    canvasElem.addEventListener('touchmove', draw);
+    window.addEventListener('touchend', stopDraw);
+}
+
+function clearCanvas() {
+    if (!canvasElem || !paintCtx) return;
+    paintCtx.fillStyle = "#ffffff";
+    paintCtx.fillRect(0, 0, canvasElem.width, canvasElem.height);
+}
+
+function downloadCanvas() {
+    if (!canvasElem) return;
+    const link = document.createElement('a');
+    link.download = 'babi-drawing.png';
+    link.href = canvasElem.toDataURL();
+    link.click();
+}
+
+</script>
+
+</body>
+</html>
